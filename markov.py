@@ -1,6 +1,8 @@
 """Generate Markov text from text files."""
 
-from random import choice
+import sys
+
+import random as r
 
 
 def open_and_read_file(file_path):
@@ -9,10 +11,10 @@ def open_and_read_file(file_path):
     Takes a string that is a file path, opens the file, and turns
     the file's contents as one string of text.
     """
+    text_file = open(file_path).read()
 
-    # your code goes here
+    return text_file
 
-    return 'Contents of your file as one long string'
 
 
 def make_chains(text_string):
@@ -39,25 +41,60 @@ def make_chains(text_string):
         >>> chains[('there','juanita')]
         [None]
     """
+    words_list = text_string.split() #len42
+    
+    # for i in range(len(words_list) -1):
+    #     loop_tup = (words_list[i], words_list[i+1])
+    #     list_of_tuples.append(loop_tup)
 
     chains = {}
 
-    # your code goes here
+    # for i in range(len(list_of_tuples) - 2):
+    #     chains[(words_list[i], words_list[i+1])] = chains.get((words_list[i], words_list[i+1]), [f"words[i+2]"]).append(words_list[i+2]) 
+    
+    
+    for i in range(len(words_list) -2):
+        loop_tup = (words_list[i], words_list[i+1])
+        if chains.get(loop_tup, 0) == 0:
+            chains[loop_tup] = [f"{words_list[i+2]}"]
+        else:
+            chains[loop_tup].append(words_list[i+2])
+
+      
 
     return chains
 
 
 def make_text(chains):
     """Return text from chains."""
+    
+    init_link = chains[("Would", "you")]
+    
+    words = ["Would", "you"]
+    print(words)
 
-    words = []
+    while True:
+        try: 
+            pos_1 = chains[init_link[1]] #defines first position for next link
+            pos_2 = r.choice(chains[init_link]) #defines second position for next link w/ random word from initial link dictionary value
+            words.append(pos_2) # Adds new word of tuple/dictionary key to words list
+            next_link = chains[(pos_1, pos_2)] #sets next link to be equal to the new values
+            init_link = next_link
+
+        except KeyError:
+            break
+        
 
     # your code goes here
+    # initial link is a key(2 words) and a random word from the value
+    #list [keyword1, keyword2, value_word]
+    #need to find the key that is equal to (keyword2, value_word1)
+    # need to add a random value word from the (kw2, vw1)
 
     return ' '.join(words)
 
 
-input_path = 'green-eggs.txt'
+input_path = f'{sys.argv[1]}'
 
 # Open the file and turn it into one long string
 input_text = open_and_read_file(input_path)
