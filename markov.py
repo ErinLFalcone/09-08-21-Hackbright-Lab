@@ -83,6 +83,19 @@ def make_text(chains):
 
         except KeyError:
             break
+
+    # init_link = ("Would", "you") I FIXED IT!!!!!!
+    # words = ["Would", "you"]
+
+    # while True:
+    #     try:
+    #         pos_1 = init_link[1] #defines first position for next link
+    #         pos_2 = r.choice(chains[init_link]) #defines second position for next link w/ random word from initial link dictionary value
+    #         words.append(pos_2) # Adds new word of tuple/dictionary key to words list
+    #         next_link = (pos_1, pos_2) #sets next link to be equal to the new values
+    #         init_link = next_link
+    #     except:
+    #         break
         
 
     # your code goes here
